@@ -44,6 +44,13 @@ class User extends Authenticatable implements JWTSubject
     ];
 
 
+
+    /* relacion de muchos a muchos con chats */
+    public function users(){
+        return $this->belongsToMany(Chat::class, 'chat_user','users_id','chats_id');
+    }
+
+
     /* confuguracion jwt */
     public function getJWTIdentifier()
     {
