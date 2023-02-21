@@ -13,17 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('mensajes', function (Blueprint $table) {
+        Schema::create('contactos', function (Blueprint $table) {
             $table->id();
-            $table->string('mensaje');
-            $table->boolean('estado');
 
-            $table->foreignId('chat_id')
-            ->constrained('chats')
+            $table->foreignId('users_id')
+            ->constrained('users')
             ->onUpdate('cascade')
             ->onDelete('cascade');
 
-            $table->foreignId('users_id')
+            $table->foreignId('contactos_id')
             ->constrained('users')
             ->onUpdate('cascade')
             ->onDelete('cascade');
@@ -40,6 +38,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mensajes');
+        Schema::dropIfExists('contactos');
     }
 };

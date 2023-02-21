@@ -46,9 +46,17 @@ class User extends Authenticatable implements JWTSubject
     ];
 
 
+    public function contactos()
+    {
+        return $this->hasMany(Contacto::class, 'contactos_id', 'id');
+    }
+
+    public function user_contacto(){
+        return $this->hasMany(Contacto::class, 'users_id', 'id');
+    }
 
     /* relacion de muchos a muchos con chats */
-    public function users(){
+    public function chats(){
         return $this->belongsToMany(Chat::class, 'chat_user','users_id','chats_id')->withTimestamps();
     }
 
