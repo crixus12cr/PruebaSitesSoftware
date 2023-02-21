@@ -21,6 +21,10 @@ class Chat extends Model
 
     /* relacion de muchos a muchos con users */
     public function users(){
-        return $this->belongsToMany(User::class, 'chat_user','chats_id','users_id');
+        return $this->belongsToMany(User::class, 'chat_user','chats_id','users_id')->withTimestamps();
+    }
+
+    public function mensajes(){
+        return $this->hasMany(Mensaje::class);
     }
 }
