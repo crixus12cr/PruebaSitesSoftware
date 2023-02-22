@@ -41,5 +41,10 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 
+Route::post('ver-mensaje',[ChatController::class, 'ver_mensaje']);
+
+Route::resource('user', UserController::class);
+Route::resource('contacto',ContactoController::class);
 Route::post('agregar_contacto', [ContactoController::class, 'store']);
 Route::post('enviar-mensaje', [ChatController::class, 'enviarMensaje']);
+

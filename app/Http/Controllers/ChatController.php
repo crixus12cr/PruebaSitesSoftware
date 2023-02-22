@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chat;
+use App\Models\Mensaje;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class ChatController extends Controller
 
     public function show($id)
     {
-        //
+
     }
 
     public function update(Request $request, $id)
@@ -34,18 +35,31 @@ class ChatController extends Controller
         //
     }
 
+    public function ver_mensaje(Request $request){
+
+        try {
+
+            $mensaje = Mensaje::whereHas('chats', function($query) use($request){
+                $query->whereHas('users', function ($_query) use ($request){
+                    $_query->whereIn('users_id', [$request['contactos_id'], auth()->user()->id]);
+                });
+            })
+            ->whereIn('users_id', [auth()->user()->id, $request['contactos_id']])
+            ->get();
+
+            return $mensaje;
+        } catch (QueryException $e) {
+            return response()->json([
+                'status' => 'ERROR',
+                'message' => $e->getMessage()
+            ]);
+        }
+
+    }
+
     public function enviarMensaje(Request $request)
     {
         try {
-
-            // return auth()->user();
-            // $user = User::find(1);
-
-
-
-            // $user->chats()->attach(1);
-
-            // return $user;
 
             $chat = Chat::create([
                 'estado' => true
@@ -61,7 +75,7 @@ class ChatController extends Controller
                 'estado' => true
             ]);
 
-            return 'bien';
+            return $mensaje;
 
         } catch (QueryException $e) {
             return response()->json([

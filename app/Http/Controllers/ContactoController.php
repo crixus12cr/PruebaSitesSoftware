@@ -10,7 +10,9 @@ class ContactoController extends Controller
 {
     public function index()
     {
-        // return response()->json()
+        return response()->json(Contacto::with('contacto_user')
+        ->where('users_id', auth()->user()->id)
+        ->get());
     }
 
     public function store(Request $request)
